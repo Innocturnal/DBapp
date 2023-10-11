@@ -34,7 +34,17 @@ function askFilm() {
   for (let i = 0; i < 3; i++) {
     lastFilm = prompt("Какой последний фильм вы посмотрели?", "Ohota");
     lastMark = +prompt("На сколько оцените его?", "8.1");
-    personaMovieDB.movies[lastFilm] = lastMark;
+    if (
+      lastFilm != "" &&
+      lastFilm != null &&
+      lastMark != "" &&
+      lastMark != null
+    ) {
+      personaMovieDB.movies[lastFilm] = lastMark;
+    } else {
+      console.log("error");
+      i--;
+    }
   }
 }
 
