@@ -1,75 +1,158 @@
 "use strict";
 
-let numberOfFilms;
 let lastFilm;
 let lastMark;
 
-function start() {
-  do {
-    numberOfFilms = +prompt("Сколько фильмов вы уже посмотрели", "20");
-  } while (
-    numberOfFilms == "" ||
-    numberOfFilms == null ||
-    isNaN(numberOfFilms)
-  );
-}
+// function start() {
+//   do {
+//     numberOfFilms = +prompt("Сколько фильмов вы уже посмотрели", "20");
+//   } while (
+//     numberOfFilms == "" ||
+//     numberOfFilms == null ||
+//     isNaN(numberOfFilms)
+//   );
+// }
 
-start();
+// start();
 
 const personaMovieDB = {
-  count: numberOfFilms,
+  count: 0, // КАКОГО ХУЯ?
   movies: {},
   actors: {},
   genres: [],
   privat: false,
+  askCount: function (checkMovies) {
+    do {
+      personaMovieDB.count = +prompt("Сколько фильмов вы уже посмотрели", "20");
+    } while (
+      personaMovieDB.count == "" ||
+      personaMovieDB.count == null ||
+      isNaN(personaMovieDB.count)
+    );
+    checkMovies(personaMovieDB.count);
+    // перекидывается значение в count
+  },
+  showMyDB: function (status) {
+    if (status === false) {
+      console.log(personaMovieDB);
+    }
+  },
+  checkCount: function (countOfMovies) {
+    if (countOfMovies > 0 && countOfMovies <= 10) {
+      alert("Просмотрено довольно мало фильмов");
+    } else if (countOfMovies > 10 && countOfMovies <= 30) {
+      alert("Вы рядовой зритель");
+    } else if (countOfMovies > 30) {
+      alert("Вы киноман");
+    } else {
+      alert("Произошла ошибка");
+    }
+  },
+  askFilm: function () {
+    let i = 0;
+    do {
+      lastFilm = prompt("Какой последний фильм вы посмотрели?", "Ohota");
+      lastMark = +prompt("На сколько оцените его?", "8.1");
+      if (
+        lastFilm != "" &&
+        lastFilm != null &&
+        lastMark != "" &&
+        lastMark != null
+      ) {
+        personaMovieDB.movies[lastFilm] = lastMark;
+        i++;
+      } else {
+        console.log("error");
+        i--;
+      }
+    } while (i < personaMovieDB.count);
+  },
+  askGenres: function () {
+    let i = 0;
+    do {
+      let lastGenre;
+      lastGenre = prompt(`Ваш любимый жанр под номером ${i + 1}`, "Action");
+      if (lastGenre !== "" && lastGenre !== null) {
+        personaMovieDB.genres[i] = lastGenre;
+        i++;
+      }
+    } while (i < 2);
+  },
+  toggleVisibilityDB: function () {
+    switch (this.privat) {
+      case false:
+        this.privat = true;
+        break;
+      case true:
+        this.privat = false;
+        break;
+    }
+  },
+  checkGenres: function () {
+    this.genres.forEach(function (currentValue, index, arr) {
+      console.log(
+        `Ваш любимый жанр под номером ${index + 1} - это ${currentValue}`
+      );
+    });
+  },
 };
 
-if (personaMovieDB.count > 0 && personaMovieDB.count <= 10) {
-  alert("Просмотрено довольно мало фильмов");
-} else if (personaMovieDB.count > 10 && personaMovieDB.count <= 30) {
-  alert("Вы рядовой зритель");
-} else if (personaMovieDB.count > 30) {
-  alert("Вы киноман");
-} else {
-  alert("Произошла ошибка");
-}
+personaMovieDB.askCount(personaMovieDB.checkCount); // записываем значение в count для объекта
 
-function showMyDB(status) {
-  if (status === false) {
-    console.log(personaMovieDB);
-  }
-}
+// function checkCountOfMovies(countOfMovies) {
+//   if (countOfMovies > 0 && countOfMovies <= 10) {
+//     alert("Просмотрено довольно мало фильмов");
+//   } else if (countOfMovies > 10 && countOfMovies <= 30) {
+//     alert("Вы рядовой зритель");
+//   } else if (countOfMovies > 30) {
+//     alert("Вы киноман");
+//   } else {
+//     alert("Произошла ошибка");
+//   }
+// }
 
-showMyDB(personaMovieDB.privat);
+// function showMyDB(status) {
+//   if (status === false) {
+//     console.log(personaMovieDB);
+//   }
+// }
 
-function askFilm() {
-  let i = 0;
-  do {
-    lastFilm = prompt("Какой последний фильм вы посмотрели?", "Ohota");
-    lastMark = +prompt("На сколько оцените его?", "8.1");
-    if (
-      lastFilm != "" &&
-      lastFilm != null &&
-      lastMark != "" &&
-      lastMark != null
-    ) {
-      personaMovieDB.movies[lastFilm] = lastMark;
-      i++;
-    } else {
-      console.log("error");
-      i--;
-    }
-  } while (i < personaMovieDB.count);
-}
+personaMovieDB.showMyDB(personaMovieDB.privat);
 
-function askGenres() {
-  for (let i = 0; i < 2; i++) {
-    personaMovieDB.genres[i] = prompt(
-      `Ваш любимый жанр под номером ${i+1}`,
-      "Jopa"
-    );
-  }
-}
+// function askFilm() {
+//   let i = 0;
+//   do {
+//     lastFilm = prompt("Какой последний фильм вы посмотрели?", "Ohota");
+//     lastMark = +prompt("На сколько оцените его?", "8.1");
+//     if (
+//       lastFilm != "" &&
+//       lastFilm != null &&
+//       lastMark != "" &&
+//       lastMark != null
+//     ) {
+//       personaMovieDB.movies[lastFilm] = lastMark;
+//       i++;
+//     } else {
+//       console.log("error");
+//       i--;
+//     }
+//   } while (i < personaMovieDB.count);
+// }
 
-askFilm();
-askGenres();
+// function askGenres() {
+//   for (let i = 0; i < 2; i++) {
+//     personaMovieDB.genres[i] = prompt(
+//       `Ваш любимый жанр под номером ${i + 1}`,
+//       "Jopa"
+//     );
+//   }
+// }
+
+personaMovieDB.askFilm();
+
+// askFilm();
+// askGenres();
+
+personaMovieDB.askGenres(personaMovieDB.checkGengres);
+personaMovieDB.checkGenres();
+personaMovieDB.toggleVisibilityDB();
